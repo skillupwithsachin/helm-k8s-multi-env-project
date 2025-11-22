@@ -20,4 +20,11 @@ aws iam put-role-policy \
   --policy-name GitHubActionsPolicy \
   --policy-document file://github-actions-policy.json
 
-  
+
+Create the OpenID Provider for Github Actions;
+
+aws iam create-open-id-connect-provider \
+  --url "https://token.actions.githubusercontent.com" \
+  --client-id-list "sts.amazonaws.com" \
+  --thumbprint-list "6938FD4D98B7C6E3B2AFA2A1A8D7A5DC0B9A1A09"
+

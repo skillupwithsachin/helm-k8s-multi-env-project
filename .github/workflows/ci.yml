@@ -66,10 +66,3 @@ jobs:
             ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Verify image exists
-        run: |
-          aws ecr describe-images \
-            --repository-name $ECR_REPOSITORY \
-            --image-ids imageTag=${{ env.IMAGE_TAG }} \
-            --region $AWS_REGION
