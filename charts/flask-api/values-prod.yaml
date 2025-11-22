@@ -1,0 +1,31 @@
+replicaCount: 3
+image:
+  repository: flask-api
+  tag: prod
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+
+ingress:
+  enabled: true
+  host: flask.example.com
+
+env:
+  APP_ENV: "prod"
+  GREETING: "Hello Production"
+  APP_VERSION: "v0.1.0"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi

@@ -1,0 +1,23 @@
+replicaCount: 2
+image:
+  repository: flask-api
+  tag: staging
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  host: staging.flask.local
+
+env:
+  APP_ENV: "staging"
+  GREETING: "Hello Staging"
+  APP_VERSION: "v0.0.1-stg"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 60

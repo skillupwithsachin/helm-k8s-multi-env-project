@@ -1,0 +1,7 @@
+# ignore docker build artifacts
+*.pyc
+__pycache__
+*.pyo
+*.pyd
+.env
+.DS_Store

@@ -1,0 +1,21 @@
+replicaCount: 1
+image:
+  repository: flask-api
+  tag: dev
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: false
+
+env:
+  APP_ENV: "dev"
+  GREETING: "Hello Dev"
+  APP_VERSION: "v0.0.1-dev"
+
+autoscaling:
+  enabled: false
