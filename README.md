@@ -9,3 +9,15 @@ Helm chart flask-api with templates for Deployment, Service, Ingress, ConfigMap,
 values.yaml (defaults) + values-dev.yaml, values-staging.yaml, values-prod.yaml.
 
 Demonstrates switching environment-specific settings (replica count, resources, host, service type, ingress enabled, image tag, feature flags).
+
+Create an IAM Policy using below commands:
+
+aws iam create-role --role-name GitHubActionsOIDCRole --assume-role-policy-document file://trust-policy.json
+
+
+aws iam put-role-policy \
+  --role-name GitHubActionsOIDCRole \
+  --policy-name GitHubActionsPolicy \
+  --policy-document file://github-actions-policy.json
+
+  
