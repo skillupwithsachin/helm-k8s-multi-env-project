@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "flask-api.fullname" . }}
+  name: {{ .Values.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "flask-api.fullname" . }}
+      app: {{ .Values.name }}
   template:
     metadata:
       labels:
-        app: {{ include "flask-api.fullname" . }}
+        app: {{ .Values.name }}
     spec:
       containers:
         - name: flask-api
@@ -22,17 +22,17 @@ spec:
             - name: APP_ENV
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "flask-api.fullname" . }}-config
+                  name: {{ .Values.name }}-config
                   key: APP_ENV
             - name: GREETING
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "flask-api.fullname" . }}-config
+                  name: {{ .Values.name }}-config
                   key: GREETING
             - name: APP_VERSION
               valueFrom:
                 configMapKeyRef:
-                  name: {{ include "flask-api.fullname" . }}-config
+                  name: {{ .Values.name }}-config
                   key: APP_VERSION
           livenessProbe:
             httpGet:
