@@ -28,3 +28,6 @@ aws iam create-open-id-connect-provider \
   --client-id-list "sts.amazonaws.com" \
   --thumbprint-list "6938FD4D98B7C6E3B2AFA2A1A8D7A5DC0B9A1A09"
 
+  Create the config-map at cluster level for access and ensure everything is good.
+
+

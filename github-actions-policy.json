@@ -16,7 +16,7 @@
         "ecr:CreateRepository",
         "ecr:DescribeRepositories"
       ],
-      "Resource": "arn:aws:ecr:us-east-1:975050179352:repository/skillupwithsachin"
+      "Resource": "arn:aws:ecr:us-east-1:<your-account-id>:repository/skillupwithsachin"
     },
     {
       "Sid": "EKSClusterAccess",
@@ -26,7 +26,7 @@
         "eks:ListClusters",
         "eks:DescribeNodegroup"
       ],
-      "Resource": "arn:aws:eks:us-east-1:975050179352:cluster/skillupwithsachin"
+      "Resource": "arn:aws:eks:us-east-1:<your-account-id>:cluster/skillupwithsachin"
     },
     {
       "Sid": "STSAssumeRoleIfNeeded",

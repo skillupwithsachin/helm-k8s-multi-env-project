@@ -34,6 +34,9 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::975050179352:role/GitHubActionsOIDCRole
           aws-region: ${{ env.AWS_REGION }}
+          
+      - name: Debug AWS Identity
+        run: aws sts get-caller-identity
 
       - name: Install kubectl
         run: |
