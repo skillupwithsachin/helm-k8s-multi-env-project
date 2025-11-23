@@ -28,13 +28,23 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+      
+      - name: Remove AWS static vars
+        run: |
+          unset AWS_ACCESS_KEY_ID || true
+          unset AWS_SECRET_ACCESS_KEY || true
+          unset AWS_SESSION_TOKEN || true
+          unset AWS_SECURITY_TOKEN || true
+          unset AWS_DEFAULT_REGION || true
+          echo "Static AWS credentials cleared."
+
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::975050179352:role/GitHubActionsOIDCRole
           aws-region: ${{ env.AWS_REGION }}
-          
+
       - name: Debug AWS Identity
         run: aws sts get-caller-identity
 
