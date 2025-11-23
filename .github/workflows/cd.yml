@@ -82,6 +82,6 @@ jobs:
 
       - name: Verify Deployment
         run: |
-          kubectl rollout status deployment/${HELM_RELEASE}-flask-api --timeout=120s
-          kubectl get pods -l app=${HELM_RELEASE}-flask-api
+          kubectl rollout status deployment/${HELM_RELEASE}-demo -n flask-demo --timeout=120s
+          kubectl get pods -l app=${HELM_RELEASE}-demo -n flask-demo
           kubectl get svc | grep $HELM_RELEASE || true
