@@ -1,10 +1,21 @@
 name: CD - Helm Deploy to EKS
 
 on:
-  workflow_run:
-    workflows: ["CI - Build & Push"]
-    types:
-      - completed
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment (dev, staging, production)'
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+        default: dev
+      cluster_name:
+        description: 'EKS Cluster Name'
+        required: true
+        default: skillupwithsachin
 
 permissions:
   contents: read
@@ -55,7 +66,7 @@ jobs:
       - name: Update kubeconfig for EKS
         run: |
           aws eks update-kubeconfig \
-            --name $CLUSTER_NAME \
+            --name ${{ github.event.inputs.cluster_name }} \
             --region $AWS_REGION
 
       - name: Determine image tag from CI workflow
@@ -73,7 +84,7 @@ jobs:
       - name: Helm Deploy
         run: |
           helm upgrade --install $HELM_RELEASE $HELM_CHART_PATH \
-            -f $HELM_CHART_PATH/values.yaml \
+            -f $HELM_CHART_PATH/values-${{ github.event.inputs.environment }}.yaml \
             --set image.repository=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }} \
             --set image.tag=latest \
             --namespace flask-demo \
