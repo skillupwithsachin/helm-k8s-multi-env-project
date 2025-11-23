@@ -38,12 +38,31 @@ jobs:
           unset AWS_DEFAULT_REGION || true
           echo "Static AWS credentials cleared."
 
+      - name: Delete AWS Creds file
+        run: |
+          rm -f /home/runner/.aws/credentials || true
+          rm -f /home/runner/.aws/config || true
+          if [ -f ~/.aws/credentials ]; then
+            rm ~/.aws/credentials
+            echo "Deleted ~/.aws/credentials file."
+          else
+            echo "No ~/.aws/credentials file found."
+          fi
+      - name: Show AWS credential files
+        run: |
+          echo "Contents of /home/runner/.aws/credentials:"
+          cat /home/runner/.aws/credentials || echo "File not found."
+          echo "Contents of /home/runner/.aws/config:"
+          cat /home/runner/.aws/config || echo "File not found."
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: arn:aws:iam::975050179352:role/GitHubActionsOIDCRole
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Debug AWS env
+        run: env | grep AWS || echo "No AWS environment variables set."
 
       - name: Debug AWS Identity
         run: aws sts get-caller-identity
