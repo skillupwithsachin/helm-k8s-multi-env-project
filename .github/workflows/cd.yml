@@ -66,20 +66,6 @@ jobs:
           echo "SHORT_TAG=$SHORT_TAG" >> $GITHUB_ENV
           echo "Using image tag: $SHORT_TAG"
 
-      - name: Select values.yaml based on environment
-        id: select-env
-        run: |
-          if [[ "${{ job.environment }}" == "dev" ]]; then
-            VALUES_FILE="values-dev.yaml"
-          elif [[ "${{ job.environment }}" == "staging" ]]; then
-            VALUES_FILE="values-staging.yaml"
-          else
-            VALUES_FILE="values-prod.yaml"
-          fi
-
-          echo "VALUES_FILE=$VALUES_FILE" >> $GITHUB_ENV
-          echo "Using $VALUES_FILE"
-
       - name: Helm Lint
         run: |
           helm lint $HELM_CHART_PATH
@@ -87,10 +73,10 @@ jobs:
       - name: Helm Deploy
         run: |
           helm upgrade --install $HELM_RELEASE $HELM_CHART_PATH \
-            -f $HELM_CHART_PATH/${{ env.VALUES_FILE }} \
+            -f $HELM_CHART_PATH/values.yaml \
             --set image.repository=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }} \
-            --set image.tag=${{ env.SHORT_TAG }} \
-            --namespace default \
+            --set image.tag=latest \
+            --namespace flask-demo \
             --create-namespace \
             --wait
 
